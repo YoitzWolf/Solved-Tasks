@@ -5,6 +5,8 @@
 
 //typedef double T;
 
+#include<string>
+
 template <typename T>
 class Complex{
     public:
@@ -46,6 +48,9 @@ class Complex{
         bool operator==(Complex<T>);
 
         Complex<T> operator!(){ return this->get_conjugate(); }
+        std::string to_str(){
+            return "Complex< " + std::to_string(this->re) + ", " + std::to_string(this->im)+" >";
+        }
 
     private:
         T im; T re;
@@ -94,7 +99,7 @@ void Complex<T>::to_conjugate(){
 
 template <typename T>
 Complex<T> Complex<T>::get_conjugate(){
-    Complex<T> nw = this;
+    Complex<T> nw = *this;
     nw.to_conjugate();
     return nw;
 }
@@ -121,16 +126,19 @@ void Complex<T>::operator-=(Complex a){
 
 template <typename T>
 void Complex<T>::operator*=(Complex a){
-    this->im = this->re * a.im - this->im * a.re;
-    this->re = this->re * a.re - this->im * a.im;
+    T imn = this->re * a.im + this->im * a.re;
+    T ren = this->re * a.re - this->im * a.im;
+
+    this->im = imn;
+    this->re = ren;
 }
 
 template <typename T>
 void Complex<T>::operator/=(Complex a){
     Complex rev = a.get_conjugate();
 
-    this *= rev;
-    this /= (a*rev).Re();
+    *this *= rev;
+    *this /= (a*rev).Re();
 }
 
 
@@ -159,28 +167,28 @@ void Complex<T>::operator/=(T a){
 
 template <typename T>
 Complex<T> Complex<T>::operator+(Complex a){
-    Complex nw = new Complex<T>(this->re, this->im);
+    Complex<T> nw = {this->re, this->im};
     nw += a;
     return nw;
 }
 
 template <typename T>
 Complex<T> Complex<T>::operator-(Complex a){
-    Complex nw = new Complex<T>(this->re, this->im);
+    Complex<T> nw = {this->re, this->im};
     nw -= a;
     return nw;
 }
 
 template <typename T>
 Complex<T> Complex<T>::operator*(Complex a){
-    Complex nw = new Complex<T>(this->re, this->im);
+    Complex<T> nw = {this->re, this->im};
     nw *= a;
     return nw;
 }
 
 template <typename T>
 Complex<T> Complex<T>::operator/(Complex a){
-    Complex nw = new Complex<T>(this->re, this->im);
+    Complex<T> nw = {this->re, this->im};
     nw /= a;
     return nw;
 }
@@ -188,28 +196,28 @@ Complex<T> Complex<T>::operator/(Complex a){
 
 template <typename T>
 Complex<T> Complex<T>::operator+(T a){
-    Complex nw = new Complex<T>(this->re, this->im);
+    Complex<T> nw = {this->re, this->im};
     nw += a;
     return nw;
 }
 
 template <typename T>
 Complex<T> Complex<T>::operator-(T a){
-    Complex nw = new Complex<T>(this->re, this->im);
+    Complex<T> nw = {this->re, this->im};
     nw -= a;
     return nw;
 }
 
 template <typename T>
 Complex<T> Complex<T>::operator*(T a){
-    Complex nw = new Complex<T>(this->re, this->im);
+    Complex<T> nw = {this->re, this->im};
     nw *= a;
     return nw;
 }
 
 template <typename T>
 Complex<T> Complex<T>::operator/(T a){
-    Complex nw = new Complex<T>(this->re, this->im);
+    Complex<T> nw = {this->re, this->im};
     nw /= a;
     return nw;
 }
